@@ -12,33 +12,27 @@ st.set_page_config(
 # -------------------------
 st.markdown("""
 <style>
-.stApp {
-    background: linear-gradient(135deg, #101010 0%, #211d16 100%);
-    color: #f5f5f5;
-}
-h1, h2, h3 { color: #F5BD36 !important; }
-section[data-testid="stSidebar"] {
-    background: #171717;
-}
-div[data-testid="stMetric"] {
-    background: #292929;
-    border: 1px solid #49402f;
-    padding: 14px;
-    border-radius: 14px;
-}
-.hero {
-    padding: 28px;
-    border-radius: 18px;
-    border: 1px solid #514326;
-    background: linear-gradient(120deg, #282116, #1d1d1d);
-}
-.card {
-    background: #242424;
-    padding: 20px;
-    border-radius: 14px;
-    border: 1px solid #403a2f;
-    margin-bottom: 12px;
-}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+.stApp { background:radial-gradient(circle at 8% 0%,rgba(184,125,37,.13),transparent 28%),linear-gradient(135deg,#0d0d0d 0%,#191713 55%,#111 100%); color:#f4f0e8; font-family:'DM Sans',sans-serif; }
+[data-testid="stHeader"] { background:rgba(13,13,13,.65); }
+h1,h2,h3 { color:#efbd59 !important; font-family:'Playfair Display',serif !important; }
+p,label,.stMarkdown { color:#eee9df; }
+section[data-testid="stSidebar"] { background:linear-gradient(180deg,#171512,#101010); border-right:1px solid #3b3222; }
+section[data-testid="stSidebar"] h1,section[data-testid="stSidebar"] h2,section[data-testid="stSidebar"] h3 { color:#efbd59 !important; }
+div[data-testid="stMetric"] { background:linear-gradient(145deg,#25231f,#1a1917); border:1px solid #4b3d25; padding:16px 18px; border-radius:16px; }
+div[data-testid="stMetricLabel"] { color:#c9bda8 !important; }
+div[data-testid="stMetricValue"] { color:#f4c86b !important; }
+.card { background:linear-gradient(145deg,rgba(42,39,33,.96),rgba(27,27,26,.96)); padding:22px; border-radius:18px; border:1px solid #453a28; margin-bottom:14px; box-shadow:0 8px 28px rgba(0,0,0,.14); }
+.hero { padding:clamp(26px,5vw,48px); border-radius:24px; border:1px solid #6b5128; background:radial-gradient(circle at 85% 15%,rgba(239,189,89,.20),transparent 25%),linear-gradient(125deg,#2b2418,#1b1b19 70%); box-shadow:0 16px 42px rgba(0,0,0,.22); margin-bottom:22px; }
+.hero-kicker { color:#efbd59; text-transform:uppercase; letter-spacing:2px; font-size:.78rem; font-weight:700; }
+.hero h1 { font-size:clamp(2.2rem,5vw,3.7rem); line-height:1.1; margin:12px 0; }
+.hero p { max-width:760px; font-size:1.08rem; color:#e5dccb; }
+.pill { display:inline-block; padding:7px 12px; margin:4px 6px 0 0; border:1px solid #6b5128; border-radius:999px; color:#f1ca78; background:rgba(239,189,89,.07); font-size:.85rem; }
+div.stButton > button { border-radius:12px; border:1px solid #d7a847; background:linear-gradient(135deg,#e8b64d,#c58a28); color:#17130c; font-weight:700; min-height:2.7rem; }
+div.stButton > button:hover { filter:brightness(1.08); color:#111; }
+.stProgress > div > div > div > div { background-color:#e6b44e; }
+hr { border-color:#403728; } footer { visibility:hidden; }
+@media(max-width:700px) { .hero{padding:24px;} .card{padding:17px;} }
 </style>
 """, unsafe_allow_html=True)
 
@@ -255,8 +249,9 @@ if "partida_iniciada" not in st.session_state:
 # -------------------------
 # MENU
 # -------------------------
-st.sidebar.title("✊🏿 CONSCIÊNCIA NEGRA")
+st.sidebar.markdown("## ✊🏿 RAÍZES DA HISTÓRIA")
 st.sidebar.caption("História • Cultura • Resistência")
+st.sidebar.markdown("---")
 
 pagina = st.sidebar.radio(
     "Navegue pelo projeto",
@@ -273,21 +268,33 @@ st.sidebar.caption("Memória, respeito e igualdade.")
 if pagina == "🏠 Início":
     st.markdown("""
     <div class="hero">
-        <h1>✊🏿 Heróis que Mudaram o Brasil</h1>
-        <h3>Uma história de coragem, inteligência, cultura e resistência.</h3>
-        <p>Conheça pessoas negras que transformaram a literatura, a educação,
-        a ciência, a política e a luta por direitos.</p>
+        <div class="hero-kicker">Memória • Identidade • Resistência</div>
+        <h1>Raízes da História</h1>
+        <p>Conheça as pessoas, as conquistas e as histórias que ajudaram a construir o Brasil.
+        Aprender sobre o passado é um passo para transformar o futuro.</p>
+        <span class="pill">✊🏿 Consciência</span>
+        <span class="pill">📚 Conhecimento</span>
+        <span class="pill">🤝 Igualdade</span>
     </div>
     """, unsafe_allow_html=True)
+
+    st.markdown("### Uma jornada pela história")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.metric("Personalidades", len(pessoas))
+    with c2:
+        st.metric("Perguntas no quiz", len(perguntas))
+    with c3:
+        st.metric("Perguntas por partida", min(10, len(perguntas)))
 
     st.markdown("### Explore o projeto")
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown('<div class="card"><h3>📚 Histórias</h3>Conheça trajetórias e legados.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card"><h3>📚 Histórias</h3><p>Conheça trajetórias de escritores, educadores, ativistas e lideranças.</p></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="card"><h3>🗓️ Linha do tempo</h3>Descubra datas importantes.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card"><h3>🗓️ Linha do tempo</h3><p>Descubra acontecimentos que marcaram a luta por liberdade e igualdade.</p></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown('<div class="card"><h3>🎮 Mini game</h3>Teste seus conhecimentos e marque pontos.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card"><h3>🎮 Desafio histórico</h3><p>Teste seus conhecimentos em uma partida com perguntas sorteadas.</p></div>', unsafe_allow_html=True)
 
     st.markdown("### Por que 20 de novembro?")
     st.write("""O Dia Nacional de Zumbi e da Consciência Negra é celebrado em 20 de novembro,
@@ -299,8 +306,20 @@ data associada à morte de Zumbi dos Palmares, em 1695. O dia tornou-se feriado 
 # -------------------------
 elif pagina == "📚 Histórias":
     st.title("📚 Pessoas que fizeram história")
-    st.write("Escolha uma personalidade para conhecer sua trajetória.")
-    nome = st.selectbox("Selecione uma pessoa:", list(pessoas.keys()))
+    st.write("Explore trajetórias de pessoas que contribuíram para a cultura, a educação, a política e a luta por direitos.")
+    busca = st.text_input("🔎 Buscar por nome ou área", placeholder="Ex.: literatura, educação, Zumbi...")
+    nomes_filtrados = [
+        n for n, dados in pessoas.items()
+        if busca.strip().lower() in n.lower()
+        or busca.strip().lower() in dados["area"].lower()
+        or busca.strip().lower() in dados["legado"].lower()
+    ] if busca.strip() else list(pessoas.keys())
+
+    if not nomes_filtrados:
+        st.warning("Nenhuma personalidade encontrada. Tente outro nome ou área.")
+        st.stop()
+
+    nome = st.selectbox("Selecione uma personalidade:", nomes_filtrados)
     pessoa = pessoas[nome]
     st.caption(f"{pessoa['periodo']} • {pessoa['area']}")
     st.markdown(f"## {nome}")
@@ -434,4 +453,4 @@ individuais e também em estruturas e instituições que produzem desigualdades.
             st.warning("Escreva sua reflexão primeiro.")
 
 st.markdown("---")
-st.caption("Projeto educativo sobre história, cultura afro-brasileira e combate ao racismo.")
+st.caption("RAÍZES DA HISTÓRIA  •  Projeto educativo sobre história, cultura afro-brasileira e combate ao racismo.")
